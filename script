@@ -1,0 +1,80 @@
+create table APP_USUARIO (
+   id_usuario NUMBER(19) NOT NULL,
+   sso_id VARCHAR(30) NOT NULL,
+   contrasena VARCHAR(100) NOT NULL,
+   nombre VARCHAR(30) NOT NULL,
+   apellido  VARCHAR(30) NOT NULL,
+   email VARCHAR(30) NOT NULL,
+   estatus VARCHAR(30) NOT NULL,  
+   PRIMARY KEY (id_usuario),
+   UNIQUE (sso_id)
+);
+  
+/* ------------------------------------------------------------------------------ */
+
+create table USUARIO_PERFIL(
+   id_perfil NUMBER(19) NOT NULL,
+   tipo VARCHAR(30) NOT NULL,
+   PRIMARY KEY (id_perfil),
+   UNIQUE (tipo)
+);
+  
+/* ------------------------------------------------------------------------------ */
+
+CREATE TABLE APP_USUARIO_USUARIO_PERFIL (
+    usuario_id NUMBER(19) NOT NULL,
+    usuario_perfil_id NUMBER(19) NOT NULL,
+    PRIMARY KEY (usuario_id, usuario_perfil_id),
+    CONSTRAINT FK_APP_USUARIO FOREIGN KEY (usuario_id) REFERENCES APP_USUARIO (id_usuario),
+    CONSTRAINT FK_USUARIO_PERFIL FOREIGN KEY (usuario_perfil_id) REFERENCES USUARIO_PERFIL (id_perfil)
+);
+
+/* ------------------------------------------------------------------------------ */
+
+INSERT INTO USUARIO_PERFIL
+VALUES (1,'USER');
+ 
+INSERT INTO USUARIO_PERFIL
+VALUES (2,'ADMIN');
+ 
+INSERT INTO USUARIO_PERFIL
+VALUES (3,'DBA');
+ 
+/* ------------------------------------------------------------------------------ */
+
+INSERT INTO APP_USUARIO
+VALUES (1,'jesus','abc1', 'Jesus','Parra','jesus@xyz.com', 'Activo');
+ 
+INSERT INTO APP_USUARIO
+VALUES (2,'julio','abc2', 'Julio','Torres','julio@xyz.com', 'Activo');
+ 
+INSERT INTO APP_USUARIO
+VALUES (3,'jessi','abc3', 'Jessica','Blancas','jessica@xyz.com', 'Activo');
+ 
+INSERT INTO APP_USUARIO
+VALUES (4,'diana','abc4', 'Diana','Jimenez','diana@xyz.com', 'Activo');
+ 
+INSERT INTO APP_USUARIO
+VALUES (5,'fabi','abc5', 'Fabiola','Medina','faniola@xyz.com', 'Activo');
+ 
+/* ------------------------------------------------------------------------------ */
+
+INSERT INTO APP_USUARIO_USUARIO_PERFIL (usuario_id, usuario_perfil_id)
+   SELECT usuario.id_usuario, perfil.id_perfil FROM APP_USUARIO usuario, USUARIO_PERFIL perfil where usuario.sso_id='jesus' and perfil.tipo='USER';
+
+INSERT INTO APP_USUARIO_USUARIO_PERFIL (usuario_id, usuario_perfil_id)
+  SELECT usuario.id_usuario, perfil.id_perfil FROM APP_USUARIO usuario, USUARIO_PERFIL perfil where usuario.sso_id='julio' and perfil.tipo='USER';
+ 
+INSERT INTO APP_USUARIO_USUARIO_PERFIL (usuario_id, usuario_perfil_id)
+  SELECT usuario.id_usuario, perfil.id_perfil FROM APP_USUARIO usuario, USUARIO_PERFIL perfil where usuario.sso_id='jessi' and perfil.tipo='ADMIN';
+ 
+INSERT INTO APP_USUARIO_USUARIO_PERFIL (usuario_id, usuario_perfil_id)
+  SELECT usuario.id_usuario, perfil.id_perfil FROM APP_USUARIO usuario, USUARIO_PERFIL perfil where usuario.sso_id='diana' and perfil.tipo='DBA';
+ 
+INSERT INTO APP_USUARIO_USUARIO_PERFIL (usuario_id, usuario_perfil_id)
+  SELECT usuario.id_usuario, perfil.id_perfil FROM APP_USUARIO usuario, USUARIO_PERFIL perfil where usuario.sso_id='fabi' and perfil.tipo='ADMIN';
+ 
+INSERT INTO APP_USUARIO_USUARIO_PERFIL (usuario_id, usuario_perfil_id)
+  SELECT usuario.id_usuario, perfil.id_perfil FROM APP_USUARIO usuario, USUARIO_PERFIL perfil where usuario.sso_id='fabi' and perfil.tipo='DBA';
+
+commit;
