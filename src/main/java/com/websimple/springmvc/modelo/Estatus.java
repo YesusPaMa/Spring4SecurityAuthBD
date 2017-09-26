@@ -2,10 +2,10 @@ package com.websimple.springmvc.modelo;
 
 public enum Estatus {
 
-	ACTIVE("Active"),
-	INACTIVE("Inactive"),
-	DELETED("Deleted"),
-	LOCKED("Locked");
+	ACTIVE("Activo"),
+	INACTIVE("Inactivo"),
+	DELETED("Eliminado"),
+	LOCKED("Bloqueado");
 	
 	private String estatus;
 	
