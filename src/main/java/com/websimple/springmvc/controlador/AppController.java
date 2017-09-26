@@ -37,6 +37,12 @@ public class AppController {
 		return "dba";
 	}
 	
+	@RequestMapping(value = "/dba", method = RequestMethod.GET)
+	public String dbPage(ModelMap model) {
+		model.addAttribute("usuario", getPrincipal());
+		return "db";
+	}
+	
 	@RequestMapping(value="/logout", method = RequestMethod.GET)
 	public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
